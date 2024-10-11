@@ -34,3 +34,9 @@ A package version can be appended to the package name separated by a colon (i.e.
 'latest' can be used as an alias for the latest version. If the version is omitted the latest version is assumed.
 Versions for 'search' command can also be given in parts (i.e. hl7:4).
 ```
+
+Username and password may be stored inside a `.simplifierrc` file inside your home directory:
+```
+username=user@example.com
+password=P455w0rd
+```

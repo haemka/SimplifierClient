@@ -1,5 +1,7 @@
 import argparse
-from pprint import pprint
+import os.path
+import sys
+from pathlib import Path
 
 from simplifierclient.client import SimplifierClient
 
@@ -27,7 +29,21 @@ def cli():
     parser.add_argument("-p", "--password", help="Simplifier password")
     args = parser.parse_args()
 
-    c = SimplifierClient(args.username, args.password)
+    if args.username and args.password:
+        username = args.username
+        password = args.password
+    elif os.path.exists(os.path.join(Path.home(), ".simplifierrc")):
+        with open(os.path.join(Path.home(), ".simplifierrc"), "r") as f:
+            for line in f.readlines():
+                if line.startswith("username"):
+                    username = line.split('=', 1)[1]
+                if line.startswith("password"):
+                    password = line.split('=', 1)[1]
+    else:
+        print("No username or password provided.")
+        sys.exit(1)
+
+    c = SimplifierClient(username, password)
 
     if ':' in args.package[0]:
         package, version = args.package[0].split(':')

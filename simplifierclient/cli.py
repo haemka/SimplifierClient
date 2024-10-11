@@ -46,7 +46,10 @@ def cli():
                 v = version
             print(f"- {v}")
     elif args.command == "search":
-        print(f"\033[1mSearch results for {package}:\033[0m")
+        if version:
+            print(f"\033[1mSearch results for {package} with version {version}:\033[0m")
+        else:
+            print(f"\033[1mSearch results for {package}:\033[0m")
         for package in c.search_package(package, version):
             print(f"- \033[1m{package['Name']}\033[0m\n  Description: {package['Description']}\n  FHIR Version: {package['FhirVersion']}")
     else:

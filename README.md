@@ -32,5 +32,5 @@ version. If the version is omitted tthe latest version is assumed.
 ## Installation
 
 ```
-python3 -m pip install https://github.com/haemka/SimplifierClient
+python3 -m pip install git+https://github.com/haemka/SimplifierClient
 ```

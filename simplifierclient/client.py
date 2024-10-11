@@ -15,6 +15,14 @@ class SimplifierClient:
         self.session.auth = HTTPBasicAuth(username, password)
         self.session.headers.update({"Accept": "application/json", "Content-Type": "application/json"})
 
+    def search_package(self, search_term, version=None):
+        if version:
+            params = f"name={search_term}&version={version}"
+        else:
+            params = f"name={search_term}"
+        result = self.session.get(urljoin(self.base_url, f"catalog?{params}"))
+        return result.json()
+
     def get_all_package_data(self, package):
         result = self.session.get(urljoin(self.base_url, package))
         return result.json()

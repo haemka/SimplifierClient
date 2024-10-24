@@ -88,8 +88,9 @@ def cli():
             text += ":\033[0m"
             print(text)
             for package in results:
+                package_description = package['Description'].replace('\r\n', ' ')
                 print(f"- \033[1m{package['Name']}\033[0m\n"
-                      f"  Description: {package['Description']}\n"
+                      f"  Description: {package_description}\n"
                       f"  FHIR Version: {package['FhirVersion']}"
                 )
         else:

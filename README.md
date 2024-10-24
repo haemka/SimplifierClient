@@ -32,7 +32,7 @@ Commands:
 Package names and versions:
 A package version can be appended to the package name separated by a colon (i.e. hl7.fhir.r4.core:4.0.1).
 'latest' can be used as an alias for the latest version. If the version is omitted the latest version is assumed.
-Versions for 'search' command can also be given in parts (i.e. hl7:4).
+Package names and versions for 'search' command can also be given in parts (i.e. hl7.fhir:4). An additional filter for the FHIR version can be added delimited by another colon (i.e. hl7.fhir.r4.core:4.0.1:R4) for the 'search' command.
 ```
 
 Username and password may be stored inside a `.simplifierrc` file inside your home directory:

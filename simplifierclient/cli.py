@@ -41,6 +41,7 @@ def cli():
     parser.add_argument("package", nargs=1, help="The package")
     parser.add_argument("-u", "--username", help="Simplifier username")
     parser.add_argument("-p", "--password", help="Simplifier password")
+    parser.add_argument("-d", "--debug", action='store_true', help="Enable Debug messages")
     args = parser.parse_args()
 
     if args.username and args.password:
@@ -57,7 +58,7 @@ def cli():
         print("No username or password provided.")
         sys.exit(1)
 
-    c = SimplifierClient(username, password)
+    c = SimplifierClient(username, password, args.debug)
 
     package, version, fhir_version = (args.package[0].split(":", 2) + [None] * 3)[:3]
 

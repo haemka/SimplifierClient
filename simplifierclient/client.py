@@ -7,11 +7,11 @@ from urllib.parse import urljoin
 
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 
 class SimplifierClient:
-    def __init__(self, username, password):
+    def __init__(self, username, password, debug=False):
         """Initializes a new simplifier client.
 
         :param username: The Simlifier username.
@@ -23,6 +23,8 @@ class SimplifierClient:
         self.session.headers.update(
             {"Accept": "application/json", "Content-Type": "application/json"}
         )
+        if debug:
+            logging.basicConfig(level=logging.DEBUG)
 
     def search_package(self, search_term, version=None, fhir_version=None, prerelease=False):
         """Searches for packages based on a search term.

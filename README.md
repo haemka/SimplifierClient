@@ -2,6 +2,12 @@
 
 A simple client library for the [Simplifier package registry](https://simplifier.net) API.
 
+## Installation
+
+```
+python -m pip install --user git+https://github.com/haemka/SimplifierClient.git
+```
+
 ## CLI
 
 The library features a CLI interface via the command `fhirpackage`.

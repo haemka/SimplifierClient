@@ -36,6 +36,7 @@ class SimplifierClient:
         params = f"name={search_term}"
         if version:
             if re.match(r'.*-[alpha,beta,ballot].*', version):
+                logger.info("Pre-release keyword detected. Including pre-release packages in search.")
                 prerelease=True
             params = f"{params}&version={version}"
         if fhir_version:

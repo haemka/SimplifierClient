@@ -41,6 +41,7 @@ def cli():
     parser.add_argument("package", nargs=1, help="The package")
     parser.add_argument("-u", "--username", help="Simplifier username")
     parser.add_argument("-p", "--password", help="Simplifier password")
+    parser.add_argument("-t", "--terse", action='store_true', help="Terse output mode")
     parser.add_argument("-d", "--debug", action='store_true', help="Enable Debug messages")
     args = parser.parse_args()
 
@@ -65,14 +66,19 @@ def cli():
     if args.command == "download":
         c.download_package(package, version)
     elif args.command == "list":
-        print(f"\033[1mAvailable versions for package {package}:\033[0m")
+        all_package_versions = c.get_all_package_versions(package)
         latest_version = c.get_latest_package_version(package)
-        for version in c.get_all_package_versions(package):
-            if version == latest_version:
-                v = f"\033[93m{version} (latest)\033[0m"
-            else:
-                v = version
-            print(f"- {v}")
+        if args.terse:
+            for version in all_package_versions:
+                print(version)
+        else:
+            print(f"\033[1mAvailable versions for package {package}:\033[0m")
+            for version in all_package_versions:
+                if version == latest_version:
+                    v = f"\033[93m{version} (latest)\033[0m"
+                else:
+                    v = version
+                print(f"- {v}")
     elif args.command == "search":
         if version and version.startswith('~'):
             version = version.split('~')[1]
@@ -81,18 +87,22 @@ def cli():
             include_prereleases = False
         results = c.search_package(package, version, fhir_version, include_prereleases)
         if results:
-            text = f"\033[1mSearch results for {package}"
-            text += f" with version {version}" if version else ""
-            text += f" for FHIR version {fhir_version}" if fhir_version else ""
-            text += f" including pre-releases" if include_prereleases else ""
-            text += ":\033[0m"
-            print(text)
-            for package in results:
-                package_description = package['Description'].replace('\r\n', ' ')
-                print(f"- \033[1m{package['Name']}\033[0m\n"
-                      f"  Description: {package_description}\n"
-                      f"  FHIR Version: {package['FhirVersion']}"
-                )
+            if args.terse:
+                for package in results:
+                    print(package['Name'])
+            else:
+                text = f"\033[1mSearch results for {package}"
+                text += f" with version {version}" if version else ""
+                text += f" for FHIR version {fhir_version}" if fhir_version else ""
+                text += f" including pre-releases" if include_prereleases else ""
+                text += ":\033[0m"
+                print(text)
+                for package in results:
+                    package_description = package['Description'].replace('\r\n', ' ')
+                    print(f"- \033[1m{package['Name']}\033[0m\n"
+                          f"  Description: {package_description}\n"
+                          f"  FHIR Version: {package['FhirVersion']}"
+                    )
         else:
             print("No package found.")
     else:
